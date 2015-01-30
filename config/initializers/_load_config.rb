@@ -80,6 +80,13 @@ if smtp = Errbit::Config.smtp_settings
   ActionMailer::Base.smtp_settings = smtp
 end
 
+if ENV['USE_SENDMAIL']
+  Errbit::Config.sendmail_settings = {
+    location: ENV.fetch('SENDMAIL_COMMAND_LOCATION', '/usr/sbin/sendmail'),
+    arguments: ENV.fetch('SENDMAIL_ARGUMENTS', '-i -t' )
+  }
+end
+
 if sendmail = Errbit::Config.sendmail_settings
   ActionMailer::Base.delivery_method = :sendmail
   ActionMailer::Base.sendmail_settings = sendmail
